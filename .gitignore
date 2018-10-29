@@ -1,4 +1,9 @@
 .gitignore template from github / gitignore
+
+# Prevent commit of idea files
+.idea/
+.xml/
+
 # Byte-compiled / optimized / DLL files
 
 __pycache__/
