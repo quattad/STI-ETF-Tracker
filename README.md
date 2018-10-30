@@ -1,14 +1,12 @@
-# Project Title
-
-One Paragraph of project description goes here
-
-## Getting Started
+# sti-etf-tracker
 
 This is my first Python project. I intend to fetch data from Google or Yahoo Finance on the performance of the Straits Times Index (STI) and the Nikko STI Exchange Traded Fund (N2I.SG).
 
+### Table of Contents
+* [Prerequisites](#prerequisites)
+
 ### Prerequisites
 
-What things you need to install the software and how to install them
 
 ```
 Give examples
