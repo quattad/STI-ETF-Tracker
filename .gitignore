@@ -1,8 +1,8 @@
 .gitignore template from github / gitignore
 
 # Prevent commit of idea files
-.idea/
-.xml/
+*.idea/
+*.xml/
 
 # Byte-compiled / optimized / DLL files
 
