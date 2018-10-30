@@ -1,6 +1,6 @@
 # sti-etf-tracker
 
-This is my first Python project. I intend to fetch data from Google or Yahoo Finance on the performance of the Straits Times Index (STI) and the Nikko STI Exchange Traded Fund (N2I.SG).
+This is my first Python project. I intend to fetch data from Yahoo Finance on the performance of the Straits Times Index (ES3.SI) and the Nikko STI Exchange Traded Fund (G3B.SI).
 
 ### Table of Contents
 * [Prerequisites](#prerequisites)
