@@ -1,12 +1,13 @@
 # sti-etf-tracker
 
-This is my first Python project. I intend to fetch data from Yahoo Finance on the performance of the Straits Times Index (ES3.SI) and the Nikko STI Exchange Traded Fund (G3B.SI).
+This is my first Python project! 
+The STI ETF Tracker is a web application that will allow you to view the performance of user-specified stocks in real time.
+Data will be retrieved from Yahoo Finance on the performance of the Straits Times Index (ES3.SI) and the Nikko STI Exchange Traded Fund (G3B.SI).
 
 ### Table of Contents
 * [Prerequisites](#prerequisites)
 
 ### Prerequisites
-
 
 ```
 Give examples
