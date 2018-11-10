@@ -29,6 +29,8 @@ def create_app(test_config = None):
     return 'This is my home page!'
 
     from . import db
+
+    from . import auth
     db.init_app(app)  # allows db to be called via flask init-db
 
     app.register_blueprint()  # import and register blueprint from factory
