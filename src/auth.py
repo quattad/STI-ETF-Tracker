@@ -42,3 +42,37 @@ def register():  # define register view function
         flash(error)  # print error into the terminal if any
 
     return render_template('auth.register.html')
+
+@bp.route('login', methods = ('GET', 'POST'))
+def login():
+    if request.method() == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        db = get_db()  # fetch database and store in db
+        error = None  # set default value for error as none
+
+        user = db.execute('SELECT * FROM user WHERE username = %username', username=username).fetchone() # fetch list of dictionaries from db. fetchone method takes first row i.e. first dictionary
+
+        if user is None:
+            error('User is not registered!')
+        elif check_password_hash(user['password'], password):
+            error('You have entered an incorrect password')
+
+        if error is None:
+            session.clear()  # session is dict that stores data across request. data stored in cookie that is sent to the browser. browser sends back with subsequent request. Flask signs data to avoid tampering.
+            session['user_id'] = user['id']  # store user id in current session
+            return redirect(url_for('index'))  # return to home page
+
+        flash(error)
+
+    return render_template('auth/login.html')
+
+@bp.before_app_request()
+def load_logged_in_user():
+    user_id = session['user_id']  # actual tutorial writes user_id = session.get(user_id). should return same result.
+
+    if user_id is None:  # user logging in for the first time
+        g.user = None  # g lasts for the length of the request
+    else:
+        g.user = get_db.execute('SELECT * FROM user WHERE id = %user_id', user_id=user_id)  # stores dictionary with keys and values corresponding to the headers and row values for particular user
