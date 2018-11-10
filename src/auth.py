@@ -37,13 +37,14 @@ def register():  # define register view function
             db.execute('INSERT INTO user (username, password) VALUES (%username, %password)',username=username, password=generate_password_hash(password))
             db.commit()  # saves changes to the db
 
-            return redirect(url_for('auth.login'))
+            return redirect(url_for('auth.login'))  # endpoint should be 'auth.login' since login is within the 'auth' blueprint
 
         flash(error)  # print error into the terminal if any
 
     return render_template('auth.register.html')
 
-@bp.route('login', methods = ('GET', 'POST'))
+
+@bp.route('/login', methods = ('GET', 'POST'))
 def login():
     if request.method() == 'POST':
         username = request.form['username']
@@ -68,6 +69,7 @@ def login():
 
     return render_template('auth/login.html')
 
+
 @bp.before_app_request()
 def load_logged_in_user():
     user_id = session['user_id']  # actual tutorial writes user_id = session.get(user_id). should return same result.
@@ -76,3 +78,18 @@ def load_logged_in_user():
         g.user = None  # g lasts for the length of the request
     else:
         g.user = get_db.execute('SELECT * FROM user WHERE id = %user_id', user_id=user_id)  # stores dictionary with keys and values corresponding to the headers and row values for particular user
+
+@bp.route('/logout')
+def logout():
+    session.clear()  # clear any cookies from the user's browser
+    return redirect(url_for('index'))  # return to home page
+
+# create decorator for views that require user to be logged in. such views will be preceded by '@login_required'
+def login_required(view):
+    @functools.wraps(view)  # wrap original view function
+    def wrapped_view(**kwargs):  # modify view function with added function wrapped_view to check if login dictionary exists
+        if g.user is None:
+            return redirect(url_for('auth.login'))
+
+        return view(**kwargs)
+    return wrapped_view()  # return generated function
