@@ -31,6 +31,8 @@ def create_app(test_config = None):
     from . import db
     db.init_app(app)  # allows db to be called via flask init-db
 
+    app.register_blueprint()  # import and register blueprint from factory
+
     # Cannot seem to activate.
     # Bookmark 8/11/18 23:55. http://flask.pocoo.org/docs/1.0/tutorial/database/
 
