@@ -11,7 +11,7 @@ import functools
 from flask import (Blueprint, flash, g, redirect, render_template, request, session, url_for)
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from src.db import get_db
+from .db import get_db
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')  # creates instance 'bp' of Blueprint object. url_prefix is prepended to all URLS associated with the blueprint
 
@@ -70,19 +70,21 @@ def login():
     return render_template('auth/login.html')
 
 
-@bp.before_app_request()
+@bp.before_app_request
 def load_logged_in_user():
-    user_id = session['user_id']  # actual tutorial writes user_id = session.get(user_id). should return same result.
+    user_id = session.get('user_id')
 
     if user_id is None:  # user logging in for the first time
         g.user = None  # g lasts for the length of the request
     else:
         g.user = get_db.execute('SELECT * FROM user WHERE id = %user_id', user_id=user_id)  # stores dictionary with keys and values corresponding to the headers and row values for particular user
 
+
 @bp.route('/logout')
 def logout():
     session.clear()  # clear any cookies from the user's browser
     return redirect(url_for('index'))  # return to home page
+
 
 # create decorator for views that require user to be logged in. such views will be preceded by '@login_required'
 def login_required(view):
