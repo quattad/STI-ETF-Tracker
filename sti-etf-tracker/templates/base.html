@@ -5,13 +5,13 @@
 <nav>
     <h1>STI ETF Tracker</h1>
     <ul>
-        {% if g.user %}  // check if user is logged in
+        {% if g.user %}
         <li><span>{{ g.user['username']}}</span></li>
         <li><a href="{{url_for('auth.logout')}}">Logout</a></li>
 
-        {% else %}  // case if user is not logged in
-        <li><a href="{{url_for('auth.register'}}">Register</a></li>
-        <li><a href="{{url_for('auth.login)}}">Login</a></li>
+        {% else %}
+        <li><a href="{{url_for('auth.register')}}">Register</a></li>
+        <li><a href="{{url_for('auth.login')}}">Login</a></li>
         {% endif %}
     </ul>
 </nav>

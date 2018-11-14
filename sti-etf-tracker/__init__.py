@@ -1,5 +1,5 @@
 import os
-from flask import Flask
+from flask import Flask, render_template
 
 
 def create_app(test_config = None):
@@ -28,7 +28,7 @@ def create_app(test_config = None):
     # default page
     @app.route('/')
     def home():
-        return 'This is my home page!'
+        return ('Hello World!')
 
     from . import db
     db.init_app(app)  # allows db to be called via flask init-db

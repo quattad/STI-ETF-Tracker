@@ -20,7 +20,7 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')  # creates instance 'bp' of
 
 @bp.route('/register', methods=('GET', 'POST'))  # when request received to /auth/register, calls register view and return value as respponse
 def register():  # define register view function
-    if request.method() == 'POST':
+    if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
         db = get_db()  # fetch database and store in db
@@ -41,12 +41,12 @@ def register():  # define register view function
 
         flash(error)  # print error into the terminal if any
 
-    return render_template('auth.register.html')
+    return render_template('auth/register.html')  # for GET method, redirect to register page
 
 
-@bp.route('/login', methods = ('GET', 'POST'))
+@bp.route('/login', methods=('GET', 'POST'))
 def login():
-    if request.method() == 'POST':
+    if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
 
