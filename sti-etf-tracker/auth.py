@@ -30,11 +30,11 @@ def register():  # define register view function
             error = 'Username is required!'
         elif not password:  # checks for case in which password is not defined
             error = 'Password is required!'
-        elif db.execute('SELECT id FROM user WHERE username = %username', username=username).fetchone() is not None:  # checks for case in which user is already registered. returns one row from the query
+        elif db.execute('SELECT id FROM user WHERE username = ?', (username,)).fetchone() is not None:  # checks for case in which user is already registered. returns one row from the query
             error = 'User {} is already registered.'.format(username)
 
         if error is None:
-            db.execute('INSERT INTO user (username, password) VALUES (%username, %password)',username=username, password=generate_password_hash(password))
+            db.execute('INSERT INTO user (username, password) VALUES (?, ?)', (username, generate_password_hash(password)))
             db.commit()  # saves changes to the db
 
             return redirect(url_for('auth.login'))  # endpoint should be 'auth.login' since login is within the 'auth' blueprint
@@ -53,12 +53,12 @@ def login():
         db = get_db()  # fetch database and store in db
         error = None  # set default value for error as none
 
-        user = db.execute('SELECT * FROM user WHERE username = %username', username=username).fetchone() # fetch list of dictionaries from db. fetchone method takes first row i.e. first dictionary
+        user = db.execute('SELECT * FROM user WHERE username = ?', (username,)).fetchone() # fetch list of dictionaries from db. fetchone method takes first row i.e. first dictionary
 
         if user is None:
-            error('User is not registered!')
-        elif check_password_hash(user['password'], password):
-            error('You have entered an incorrect password')
+            error = 'User is not registered!'
+        elif not check_password_hash(user['password'], password):
+            error = 'You have entered an incorrect password'
 
         if error is None:
             session.clear()  # session is dict that stores data across request. data stored in cookie that is sent to the browser. browser sends back with subsequent request. Flask signs data to avoid tampering.
