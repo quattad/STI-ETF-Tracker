@@ -26,7 +26,7 @@ from werkzeug.exceptions import abort
 from .auth import login_required
 from .db import get_db
 
-bp = Blueprint('stocks', __name__, url_prefix="/stocks")  # creates a Blueprint object with name "blog"
+bp = Blueprint('stocks', __name__)  # creates a Blueprint object with name "blog"
 
 
 @bp.route('/')  # show information from both user and stock tables

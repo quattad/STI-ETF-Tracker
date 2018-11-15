@@ -25,11 +25,6 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    # default page
-    @app.route('/')
-    def home():
-        return ('Hello World!')
-
     from . import db
     db.init_app(app)  # allows db to be called via flask init-db
 
@@ -42,8 +37,3 @@ def create_app(test_config=None):
 
     return app
 
-
-application = create_app()
-
-if __name__ == "__main__":
-    application.run()
