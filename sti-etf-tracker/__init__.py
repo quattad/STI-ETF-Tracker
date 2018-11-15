@@ -2,9 +2,9 @@ import os
 from flask import Flask, render_template
 
 
-def create_app(test_config = None):
+def create_app(test_config=None):
     # create and configure application
-    app = Flask(__name__, instance_relative_config = True)   # tells app that configuration files are relative to instance folder
+    app = Flask(__name__, instance_relative_config=True)   # tells app that configuration files are relative to instance folder
 
     # sets some default configurations
     app.config.from_mapping(
@@ -34,7 +34,12 @@ def create_app(test_config = None):
     db.init_app(app)  # allows db to be called via flask init-db
 
     from . import auth
-    app.register_blueprint(auth.bp)  # import and register blueprint from factory
+    app.register_blueprint(auth.bp)  # import and register blueprint 'auth' from factory
+
+    from . import stocks
+    app.register_blueprint(stocks.bp)
+    app.add_url_rule('/', endpoint='index')  # associates endpoint name 'index' with / url. see comments above.
+
     return app
 
 

@@ -77,7 +77,7 @@ def load_logged_in_user():
     if user_id is None:  # user logging in for the first time
         g.user = None  # g lasts for the length of the request
     else:
-        g.user = get_db.execute('SELECT * FROM user WHERE id = %user_id', user_id=user_id)  # stores dictionary with keys and values corresponding to the headers and row values for particular user
+        g.user = get_db().execute('SELECT * FROM user WHERE id = ?', (user_id,))  # stores dictionary with keys and values corresponding to the headers and row values for particular user
 
 
 @bp.route('/logout')

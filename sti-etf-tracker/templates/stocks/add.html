@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block header %}
+    <h1>{% block title %} Add stock entry {% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <form method="POST>
+    <label for ="ticker">Enter Stock Ticker</label>
+    <input name="ticker" id="ticker" type="text">
+    <label for ="quantity">Enter Quantity</label>
+    <input name="quantity" id="quantity" type="number">
+    <input type="submit" value="Submit">
+    </form>
+{% endblock %}

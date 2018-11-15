@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block header %}
+    <h1>{% block title %} Your Stocks {% endblock %}</h1>
+    {% if g.user %}  <!-- if user is logged in, link to add view is created -->
+        <a class="action" href="{{url_for("stocks.add")}}">Add Stock</a> <!-- blog.create in tutorial -->
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <table>
+        <th>Stock Name</th>
+        <th>Stock Ticker</th>
+        <th>Quantity</th>
+        {% for stock in stocks %}
+        <tr>
+            <td>stock["stock_name"]</td>
+            <td>stock["stock_ticker"]</td>
+            <td>stock["stock_quantity"]</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
