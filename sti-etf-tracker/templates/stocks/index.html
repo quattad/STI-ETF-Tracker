@@ -14,9 +14,9 @@
         <th>Quantity</th>
         {% for stock in stocks %}
         <tr>
-            <td>stock["stock_name"]</td>
-            <td>stock["stock_ticker"]</td>
-            <td>stock["stock_quantity"]</td>
+            {% for column in stock %}
+                <td>{{column}}</td>
+            {% endfor %}
         </tr>
         {% endfor %}
     </table>

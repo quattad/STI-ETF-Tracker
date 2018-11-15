@@ -34,26 +34,43 @@ def index():
     db = get_db()
     user_id = session.get('user_id')
 
-    stocks = db.execute("SELECT * FROM user JOIN stock ON user.id = stock.user_id WHERE user.id = ?", (user_id,))  # used to have fetchall method here. currently returns syntax error
-
+    stocks = db.execute("SELECT stock_name, stock_ticker, stock_quantity FROM stock WHERE user_id = ?", (user_id,)).fetchall()
     return render_template('stocks/index.html', stocks=stocks)
 
 
 @bp.route('/add', methods=("GET", "POST"))
-# @login_required  # add decorator to check that user is logged in. if not, redirect
+# decorator is currently returning a runtime error
+# @login_required
 def add():
+    db = get_db()
+    user_id = session.get('user_id')
+
     if request.method == "POST":
-        ticker = request.method.get("ticker")
-        quantity = request.method.get("quantity")
+        ticker = request.form["ticker"]
+        quantity = request.form["quantity"]
+        stock_name = request.form["name"]
         error = None
 
         if (ticker is None) or (quantity is None):
             error = "Please enter a valid ticker or quantity."
         else:
-            db = get_db()
-            db.execute("INSERT INTO stock (user.id, stock_ticker, stock_qty) VALUES (? ? ?)", (g.user['id'], ticker, quantity))
+            if db.execute("SELECT * "
+                          "FROM stock "
+                          "WHERE stock_ticker = ?", (ticker,)).fetchone() \
+                    is None:
+                db.execute("INSERT INTO stock (user_id, stock_name, stock_ticker, stock_quantity) "
+                           "VALUES (?, ?, ?, ?)", (user_id, stock_name, ticker, quantity))
+            else:
+                current_quantity = db.execute("SELECT stock_quantity "
+                                              "FROM stock "
+                                              "WHERE user_id = ? AND stock_ticker = ?", (user_id, ticker)).fetchone()
+                new_quantity = current_quantity["stock_quantity"] + int(quantity)
+                db.execute("UPDATE stock "
+                           "SET stock_quantity = ? "
+                           "WHERE user_id = ? AND stock_ticker = ?", (new_quantity, user_id, ticker))
             db.commit()
-            return redirect(url_for("stocks.index"))
+
+        return redirect(url_for("stocks.index"))
 
     elif request.method == "GET":
         return render_template("stocks/add.html")
