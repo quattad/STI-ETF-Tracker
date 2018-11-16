@@ -3,7 +3,8 @@
 {% block header %}
     <h1>{% block title %} Your Stocks {% endblock %}</h1>
     {% if g.user %}  <!-- if user is logged in, link to add view is created -->
-        <a class="action" href="{{url_for("stocks.add")}}">Add Stock</a> <!-- blog.create in tutorial -->
+        <a class="action" href="{{url_for("stocks.add")}}">Add Stock Entry</a> <!-- blog.create in tutorial -->
+        <a class="action" href="{{url_for("stocks.delete")}}">Delete Stock Entry</a> <!-- blog.create in tutorial -->
     {% endif %}
 {% endblock %}
 

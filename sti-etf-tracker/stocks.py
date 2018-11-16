@@ -25,21 +25,24 @@ from werkzeug.exceptions import abort
 
 from .auth import login_required
 from .db import get_db
+# creates a Blueprint object with name "blog"
+bp = Blueprint('stocks', __name__)
 
-bp = Blueprint('stocks', __name__)  # creates a Blueprint object with name "blog"
 
-
-@bp.route('/')  # show information from both user and stock tables
+@bp.route('/')
 def index():
     db = get_db()
     user_id = session.get('user_id')
 
-    stocks = db.execute("SELECT stock_name, stock_ticker, stock_quantity FROM stock WHERE user_id = ?", (user_id,)).fetchall()
+    stocks = db.execute("SELECT stock_name, stock_ticker, stock_quantity "
+                        "FROM stock "
+                        "WHERE user_id = ?", (user_id,)
+                        ).fetchall()
+
     return render_template('stocks/index.html', stocks=stocks)
 
 
 @bp.route('/add', methods=("GET", "POST"))
-# decorator is currently returning a runtime error
 # @login_required
 def add():
     db = get_db()
@@ -53,24 +56,64 @@ def add():
 
         if (ticker is None) or (quantity is None):
             error = "Please enter a valid ticker or quantity."
+
         else:
             if db.execute("SELECT * "
                           "FROM stock "
-                          "WHERE stock_ticker = ?", (ticker,)).fetchone() \
+                          "WHERE stock_ticker = ?", (ticker,)
+                          ).fetchone() \
                     is None:
+
                 db.execute("INSERT INTO stock (user_id, stock_name, stock_ticker, stock_quantity) "
-                           "VALUES (?, ?, ?, ?)", (user_id, stock_name, ticker, quantity))
+                           "VALUES (?, ?, ?, ?)", (user_id, stock_name, ticker, quantity)
+                           )
+
             else:
                 current_quantity = db.execute("SELECT stock_quantity "
                                               "FROM stock "
                                               "WHERE user_id = ? AND stock_ticker = ?", (user_id, ticker)).fetchone()
+
                 new_quantity = current_quantity["stock_quantity"] + int(quantity)
+
                 db.execute("UPDATE stock "
                            "SET stock_quantity = ? "
-                           "WHERE user_id = ? AND stock_ticker = ?", (new_quantity, user_id, ticker))
+                           "WHERE user_id = ? AND stock_ticker = ?", (new_quantity, user_id, ticker)
+                           )
             db.commit()
 
         return redirect(url_for("stocks.index"))
 
     elif request.method == "GET":
         return render_template("stocks/add.html")
+
+
+@bp.route('/delete', methods=("GET", "POST"))
+# @login_required
+def delete():
+    """ Deletes an entry from user's own stock list, regardless of quantity"""
+    db = get_db()
+    user_id = session.get('user_id')
+
+    if request.method == "POST":
+        ticker = request.form['ticker']
+
+        db.execute("DELETE FROM stock WHERE stock_ticker = ?", (ticker,))
+        db.commit()
+        print("\n It executed ok \n")
+        return redirect(url_for("stocks.index"))
+
+    elif request.method == "GET":
+        if db.execute("SELECT * "
+                      "FROM stock "
+                      ).fetchone() is None:
+            # throw some popup error that user does not own stock
+            return redirect(url_for("stocks.index"))
+        else:
+            stocks = db.execute("SELECT stock_ticker FROM stock WHERE user_id = ?", (user_id,)).fetchall()
+            stock_list = [ticker for stock in stocks for ticker in list(stock)]
+            return render_template("stocks/delete.html", stock_list=stock_list)
+
+    else:
+        # return an error message here
+        print("Throw error message")
+        return redirect(url_for("stocks.index"))

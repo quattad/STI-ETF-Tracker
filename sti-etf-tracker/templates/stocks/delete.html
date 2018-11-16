@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block header %}
+    <h1>{% block title %} Delete stock entry {% endblock %}</h1>
+    {% if g.user %}  <!-- if user is logged in, link to add view is created -->
+        <a class="action" href="{{url_for("stocks.index")}}">Home</a> <!-- blog.create in tutorial -->
+        <a class="action" href="{{url_for("stocks.add")}}">Add Stock Entry</a> <!-- blog.create in tutorial -->
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<form method="POST">
+    <label for ="ticker">Enter Stock Ticker</label>
+    <select name="ticker" id="ticker">
+        {% for stock in stock_list %}
+        <option value="{{ stock }}" SELECTED> {{ stock }}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Submit">
+</form>
+{% endblock %}
