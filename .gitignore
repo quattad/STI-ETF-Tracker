@@ -4,6 +4,9 @@
 *.idea/
 *.xml/
 
+# Prevent commit of temporary safe write files
+*___jb_tmp___/
+
 # Byte-compiled / optimized / DLL files
 
 __pycache__/

@@ -2,15 +2,19 @@
 
 {% block header %}
     <h1>{% block title %} Add stock entry {% endblock %}</h1>
+    {% if g.user %}  <!-- if user is logged in, link to add view is created -->
+        <a class="action" href="{{url_for("stocks.index")}}">Home</a> <!-- blog.create in tutorial -->
+        <a class="action" href="{{url_for("stocks.delete")}}">Delete Stock Entry</a> <!-- blog.create in tutorial -->
+    {% endif %}
 {% endblock %}
 
 {% block content %}
 <form method="POST">
     <label for ="name">Enter Name of Stock</label>
     <input name="name" id="name" type="text">
-    <label for ="ticker">Enter Stock Ticker</label>
+    <label for ="ticker" REQUIRED>Enter Stock Ticker</label>
     <input name="ticker" id="ticker" type="text">
-    <label for ="quantity">Enter Quantity</label>
+    <label for ="quantity" REQUIRED>Enter Quantity</label>
     <input name="quantity" id="quantity" type="number">
     <input type="submit" value="Submit">
 </form>
