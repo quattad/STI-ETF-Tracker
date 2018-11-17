@@ -9,7 +9,7 @@ def create_app(test_config=None):
     # sets some default configurations
     app.config.from_mapping(
         SECRET_KEY='dev',  # overwrite with random value during deployment
-        DATABASE=os.path.join(app.instance_path, 'sti-etf-tracker.sqlite')
+        DATABASE=os.path.join(app.instance_path, 'src.sqlite')
     )
 
     if test_config is None:
