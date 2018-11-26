@@ -1,6 +1,5 @@
 # sti-etf-tracker
 
-This is my first Python project! 
 The STI ETF Tracker is a web application that will allow you to view the performance of user-specified stocks in real time.
 
 ### Table of Contents
@@ -8,15 +7,9 @@ The STI ETF Tracker is a web application that will allow you to view the perform
 
 ### Prerequisites
 
-```
-Give examples
-```
+Please see requirements.txt file for full list of pre-requisites.
 
 ### Installing
-
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
 
 ```
 Give the example
