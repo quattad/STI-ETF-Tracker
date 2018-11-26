@@ -15,8 +15,6 @@ Please see requirements.txt file for full list of pre-requisites.
 Give the example
 ```
 
-
-
 ```
 until finished
 ```
