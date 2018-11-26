@@ -13,7 +13,9 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from .db import get_db
 
-bp = Blueprint('auth', __name__, url_prefix='/auth')  # creates instance 'bp' of Blueprint object. url_prefix is prepended to all URLS associated with the blueprint
+# creates instance 'bp' of Blueprint object. url_prefix is prepended to all URLS associated with the blueprint
+bp = Blueprint('auth', __name__, url_prefix='/auth')
+
 
 # when request received to /auth/register, calls register view and return value as response
 @bp.route('/register', methods=('GET', 'POST'))
@@ -56,7 +58,7 @@ def login():
         if user is None:
             error = 'User is not registered!'
         elif not check_password_hash(user['password'], password):
-            error = 'You have entered an incorrect password'
+            error = 'You have entered an incorrect password.'
 
         if error is None:
             session.clear()  # session is dict that stores data across request. data stored in cookie that is sent to the browser. browser sends back with subsequent request. Flask signs data to avoid tampering.
@@ -75,7 +77,8 @@ def load_logged_in_user():
     if user_id is None:  # user logging in for the first time
         g.user = None  # g lasts for the length of the request
     else:
-        g.user = get_db().execute('SELECT * FROM user WHERE id = ?', (user_id,))  # stores dictionary with keys and values corresponding to the headers and row values for particular user
+        # stores dictionary with keys and values corresponding to the headers and row values for particular user
+        g.user = get_db().execute('SELECT * FROM user WHERE id = ?', (user_id,))
 
 
 @bp.route('/logout')
@@ -86,8 +89,8 @@ def logout():
 
 # create decorator for views that require user to be logged in. such views will be preceded by '@login_required'
 def login_required(view):
-    @functools.wraps(view)  # wrap original view function
-    def wrapped_view(**kwargs):  # modify view function with added function wrapped_view to check if login dictionary exists
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
         if g.user is None:
             return redirect(url_for('auth.login'))
 
