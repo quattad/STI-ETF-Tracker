@@ -1,59 +1,25 @@
-# sti-etf-tracker
+# STI ETF Tracker
 
 The STI ETF Tracker is a web application that will allow you to view the performance of user-specified stocks in real time.
 
+The STI ETF Tracker was built in Python with Flask and Dash.
+
 ### Table of Contents
 * [Prerequisites](#prerequisites)
-
+* [Tests](#tests)
 ### Prerequisites
 
 Please see requirements.txt file for full list of pre-requisites.
 
-### Installing
+### Tests
 
-```
-Give the example
-```
+// Explain tests here
 
-```
-until finished
-```
+## Acknowledgements
 
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
-
-## Built With
-
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+* [Flask](http://flask.pocoo.org/) - Web Framework
+* [Dash](https://dash.plot.ly/) - Interactive Python Framework for data visualization apps
+* [Sentdex / Harrison Kinsley](https://github.com/Sentdex) - For his awesome tutorial videos
 
 ## Versioning
 
@@ -61,9 +27,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+* **Jonathan Quah** - [Quattad](https://github.com/quattad)
 
 ## License
 
@@ -72,5 +36,3 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 ## Acknowledgments
 
 * Hat tip to anyone whose code was used
-* Inspiration
-* etc
